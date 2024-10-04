@@ -1,15 +1,9 @@
 <h1 align="center">Halo 👋, I'm Dana</h1>
-<h3 align="center">Full-Stack Developer from Indonesia. I also have a passion for business process management, cloud computing, and data science.</h3>
+<h3 align="center">Full-Stack Developer from Indonesia</h3>
 
-<p align="left"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=danazzz" alt="danazzz" /></a> </p>
-
-- 🌱 I’m currently learning **Alot of things, but for now I'm focusing on Neo4j and implementation of GNN**
+- 🌱 I’m currently learning alot of things, but for now I'm focusing on **Neo4j and implementation of GNN**
 
 - 👨‍💻 All of my projects are available at [https://danazzz.github.io/portfolio/](https://danazzz.github.io/portfolio/)
-
-- 📫 Reach me **wardhianadana@gmail.com**
-
-- ⚡ Fun fact **I think my brain is incapable of telling funny jokes :)**
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
@@ -27,6 +21,8 @@
 <p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=danazzz&show_icons=true&locale=en" alt="danazzz" /></p>
 
 <p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=danazzz&" alt="danazzz" /></p>
+
+<p align="left"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=danazzz" alt="danazzz" /></a> </p>
 
 <h3 align="left">Contributions</h3>
 <picture>
