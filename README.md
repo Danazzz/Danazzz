@@ -27,3 +27,6 @@
 <p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=danazzz&show_icons=true&locale=en" alt="danazzz" /></p>
 
 <p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=danazzz&" alt="danazzz" /></p>
+
+<h3 align="left">Contributions</h3>
+![snake gif](https://github.com/danazzz/danazzz/blob/output/github-contribution-grid-snake.svg)
