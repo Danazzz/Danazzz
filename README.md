@@ -1,5 +1,4 @@
 <h1 align="center">Halo 👋, I'm Dana</h1>
-<h3 align="center">Full-Stack Developer from Indonesia</h3>
 
 🌱 I’m currently learning alot of things, but for now I'm focusing on **Neo4j and implementation of GNN**
 
