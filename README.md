@@ -11,7 +11,10 @@
 </p>
 
 <h3 align="left">Stats:</h3>
-<p align="center"><img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=danazzz&show_icons=true&locale=en&layout=compact" alt="danazzz" /></p>
+<div align="center">
+  <p align="center"><img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=danazzz&show_icons=true&locale=en&layout=compact" alt="danazzz" /></p>
+  <p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=danazzz&show_icons=true&locale=en" alt="danazzz" /></p>
+</div>
 
 <h3 align="left">Contributions:</h3>
 <picture>
