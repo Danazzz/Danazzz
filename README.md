@@ -10,9 +10,6 @@
 <a href="https://instagram.com/danaputraw" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="danaputraw" height="30" width="40" /></a>
 </p>
 
-<h3 align="left">Trophies:</h3>
-<p align="center"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=danazzz" alt="danazzz" /></a> </p>
-
 <h3 align="left">Stats:</h3>
 <p align="center"><img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=danazzz&show_icons=true&locale=en&layout=compact" alt="danazzz" /></p>
 
