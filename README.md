@@ -1,6 +1,6 @@
 <h1 align="center">Halo 👋, I'm Dana</h1>
 
-🌱 I’m currently learning alot of things, but for now I'm focusing on **Neo4j and implementation of GNN**
+🌱 I’m currently learning alot of things, but for now I'm focusing on **Graph Data Science**
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
