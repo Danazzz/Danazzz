@@ -119,7 +119,7 @@ def fetch_stats():
 
 # commit di atas batas ini diperiksa per file: kode tulisan sendiri tetap dihitung,
 # sedangkan library, hasil build, lock file, dan dataset dibuang
-MAX_COMMIT_LINES = 5000
+MAX_COMMIT_LINES = 1000
 # satu file dengan tambahan sebanyak ini di commit besar hampir pasti hasil generate/salin
 MAX_FILE_LINES = 3000
 
