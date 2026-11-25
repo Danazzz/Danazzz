@@ -117,13 +117,17 @@ def fetch_stats():
     return stats
 
 
+# commit lebih besar dari ini dianggap bukan kode tulisan tangan
+# (vendor/, node_modules/, template, dataset) dan tidak dihitung
+MAX_COMMIT_LINES = 5000
+
 LOC_QUERY = """
 query($owner: String!, $name: String!, $id: ID!, $cursor: String) {
   repository(owner: $owner, name: $name) {
     defaultBranchRef { target { ... on Commit {
       history(first: 100, author: {id: $id}, after: $cursor) {
         pageInfo { hasNextPage endCursor }
-        nodes { additions deletions }
+        nodes { additions deletions parents { totalCount } }
       }
     } } }
   }
@@ -142,8 +146,13 @@ def loc(repo_names, user_id):
                 if ref is None:
                     break  # empty repo
                 h = ref["target"]["history"]
-                add += sum(n["additions"] for n in h["nodes"])
-                rem += sum(n["deletions"] for n in h["nodes"])
+                for n in h["nodes"]:
+                    if n["parents"]["totalCount"] > 1:
+                        continue  # merge commit: isinya sudah terhitung di commit aslinya
+                    if n["additions"] + n["deletions"] > MAX_COMMIT_LINES:
+                        continue
+                    add += n["additions"]
+                    rem += n["deletions"]
                 if not h["pageInfo"]["hasNextPage"]:
                     break
                 cursor = h["pageInfo"]["endCursor"]
