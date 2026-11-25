@@ -14,6 +14,38 @@ BIRTHDAY = date(2021, 1, 9)  # TODO: ganti dengan tanggal lahir (sementara: tang
 JOINED_YEAR = 2021  # account creation year, never changes
 W = 56  # info column width in characters
 
+# ilustrasi nanas dari logo portfolio (NanasLogo.jsx)
+ART = r"""
+
+                  ==
+                 ====
+   --            ====            --
+    -----        ====        -----
+     -------    ======    -------
+      -------   ======   -------
+        -------  ====  -------
+          ------ ==== ------
+            ----- == -----
+             //********\\
+         ++//\\%%%%%%%%//\\++
+       +*//%%%%\\%%%%//%%%%\\*+
+      \//%%%%%###\\//###%%%%%\\/
+     //\\%%######//\\######%%//\\
+    **%%%%\####/######\####/%%%%**
+   +*%%%%###\/##########\/###%%%%*+
+   **%%%###/##\########/##\###%%%**
+   *\\%%//######\\##//######\\%%//*
+   **%XX##########XX##########XX%**
+   +//%%\\######//##\\######//%%\\+
+   /**%%%#\\##//######\\##//#%%%**\
+    +*%%%%##XX##########XX##%%%%*+
+     +**%%/%###\######/###%\%%**+
+      +*/%%%%%%##\##/##%%%%%%\*+
+        \***%%%%%//\\%%%%%***/
+          \+***//%%%%\\***+/
+               ++++++++
+"""
+
 # two tokens by design: the Actions GITHUB_TOKEN yields the contribution-style
 # commit count (public + private activity), while a PAT (ACCESS_TOKEN secret)
 # sees private repos for the repo list and LOC walk. Either falls back to the other.
@@ -175,15 +207,17 @@ def info_lines(s):
 def render(mode, stats):
     p = PALETTES[mode]
     out = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="500" viewBox="0 0 480 500" '
+        '<svg xmlns="http://www.w3.org/2000/svg" width="840" height="500" viewBox="0 0 840 500" '
         f'font-family="Consolas, Menlo, monospace" font-size="13px">',
-        f'<rect x="0.5" y="0.5" width="479" height="499" rx="10" fill="{p["bg"]}" stroke="{p["border"]}"/>',
+        f'<rect x="0.5" y="0.5" width="839" height="499" rx="10" fill="{p["bg"]}" stroke="{p["border"]}"/>',
     ]
+    for i, line in enumerate(ART.strip("\n").split("\n")):
+        out.append(f'<text x="25" y="{40 + i * 15}" fill="{p["art"]}" xml:space="preserve">{html.escape(line)}</text>')
     for i, segs in enumerate(info_lines(stats)):
         if not segs:
             continue
         spans = "".join(f'<tspan fill="{p[c]}">{html.escape(t)}</tspan>' for t, c in segs)
-        out.append(f'<text x="25" y="{45 + i * 21}" xml:space="preserve">{spans}</text>')
+        out.append(f'<text x="390" y="{45 + i * 21}" xml:space="preserve">{spans}</text>')
     out.append("</svg>")
     return "\n".join(out)
 
