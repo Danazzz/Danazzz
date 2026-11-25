@@ -117,9 +117,49 @@ def fetch_stats():
     return stats
 
 
-# commit lebih besar dari ini dianggap bukan kode tulisan tangan
-# (vendor/, node_modules/, template, dataset) dan tidak dihitung
+# commit di atas batas ini diperiksa per file: kode tulisan sendiri tetap dihitung,
+# sedangkan library, hasil build, lock file, dan dataset dibuang
 MAX_COMMIT_LINES = 5000
+# satu file dengan tambahan sebanyak ini di commit besar hampir pasti hasil generate/salin
+MAX_FILE_LINES = 3000
+
+SKIP_DIRS = ("vendor/", "node_modules/", "bower_components/", "dist/", "build/",
+             "public/build/", "public/vendor/", "assets/vendor/", "plugins/", "storage/",
+             ".next/", ".nuxt/", "__pycache__/", "venv/", ".venv/", "env/", "site-packages/",
+             "Pods/", ".dart_tool/", "android/app/build/", "ios/Pods/",
+             "wp-admin/", "wp-includes/", "_assets/", "Bootstrap/", "bootstrap/dist/",
+             ".agents/", ".claude/", ".cursor/", ".github/", "docs/assets/")
+SKIP_FILES = ("package-lock.json", "yarn.lock", "pnpm-lock.yaml", "composer.lock",
+              "Gemfile.lock", "poetry.lock", "Pipfile.lock", "go.sum", "pubspec.lock",
+              "LICENSE", "LICENSE.md", "LICENSE.txt")
+SKIP_EXTS = (".min.js", ".min.css", ".map", ".csv", ".tsv", ".xlsx", ".xls", ".ipynb",
+             ".sql", ".svg", ".lock", ".log", ".pdf", ".txt", ".xml", ".geojson")
+
+
+def is_generated(path, additions):
+    p = "/" + path
+    if any(f"/{d}" in p for d in SKIP_DIRS):
+        return True
+    name = path.rsplit("/", 1)[-1]
+    if name in SKIP_FILES or name.lower().endswith(SKIP_EXTS):
+        return True
+    return additions > MAX_FILE_LINES
+
+
+def big_commit_lines(name, oid):
+    """Hitung baris di commit besar, hanya dari file yang ditulis sendiri."""
+    add = rem = 0
+    for page in range(1, 11):  # REST memberi maks. 300 file per halaman, 3000 file total
+        _, c = gh(f"https://api.github.com/repos/{USER}/{name}/commits/{oid}?per_page=300&page={page}", token=PRIV_TOKEN)
+        files = c.get("files") or []
+        for f in files:
+            if not is_generated(f["filename"], f["additions"]):
+                add += f["additions"]
+                rem += f["deletions"]
+        if len(files) < 300:
+            break
+    return add, rem
+
 
 LOC_QUERY = """
 query($owner: String!, $name: String!, $id: ID!, $cursor: String) {
@@ -127,7 +167,7 @@ query($owner: String!, $name: String!, $id: ID!, $cursor: String) {
     defaultBranchRef { target { ... on Commit {
       history(first: 100, author: {id: $id}, after: $cursor) {
         pageInfo { hasNextPage endCursor }
-        nodes { additions deletions parents { totalCount } }
+        nodes { oid additions deletions parents { totalCount } }
       }
     } } }
   }
@@ -150,9 +190,11 @@ def loc(repo_names, user_id):
                     if n["parents"]["totalCount"] > 1:
                         continue  # merge commit: isinya sudah terhitung di commit aslinya
                     if n["additions"] + n["deletions"] > MAX_COMMIT_LINES:
-                        continue
-                    add += n["additions"]
-                    rem += n["deletions"]
+                        a, r = big_commit_lines(name, n["oid"])
+                    else:
+                        a, r = n["additions"], n["deletions"]
+                    add += a
+                    rem += r
                 if not h["pageInfo"]["hasNextPage"]:
                     break
                 cursor = h["pageInfo"]["endCursor"]
@@ -236,6 +278,11 @@ def selfcheck():
     assert age(date(2000, 3, 31), date(2026, 4, 1)) == (26, 0, 1)
     assert age(date(2000, 1, 1), date(2026, 1, 1)) == (26, 0, 0)
     assert len("".join(t for t, _ in kv("OS", "macOS"))) == W
+    assert is_generated("vendor/laravel/x.php", 10) and is_generated("a/node_modules/b.js", 1)
+    assert is_generated("public/js/app.min.js", 5) and is_generated("composer.lock", 1)
+    assert not is_generated("app/Http/Controllers/DosenController.php", 400)
+    assert is_generated("app/huge.php", MAX_FILE_LINES + 1)
+    assert is_generated("wp-admin/includes/post.php", 10) and is_generated(".claude/skills/x/SKILL.md", 10)
 
 
 if __name__ == "__main__":
